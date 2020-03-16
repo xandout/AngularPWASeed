@@ -87,7 +87,9 @@ if (cluster.isMaster) {
     );
 
     // redirect http to https
-    app.use(require('./middleware/httpredir')(APP_CONFIG));
+    if (process.env.HTTPS === "true") {
+        app.use(require('./middleware/httpredir')(APP_CONFIG));
+    }
 
     app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*');
@@ -100,8 +102,9 @@ if (cluster.isMaster) {
         return next();
     });
 
+    let ssl_config;
     let server;
-    if (process.env.HTTPS) {
+    if (process.env.HTTPS === "true") {
         let ssl_config = {
             key: (process.env.SSLKEY ? HelpersService.tryLoad(process.env.SSLKEY) : undefined),
             cert: (process.env.SSLCERT ? HelpersService.tryLoad(process.env.SSLCERT) : undefined),
@@ -116,6 +119,7 @@ if (cluster.isMaster) {
         });
         redir.listen(80);
     } else {
+        console.log("Started without HTTPS")
         server = createServer(app);
     }
 

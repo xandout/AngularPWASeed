@@ -1,0 +1,53 @@
+version: '2.4'
+services:
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root-0qww294e
+      MYSQL_DATABASE: demoDb
+      MYSQL_USER: pwauser
+      MYSQL_PASSWORD: pwa-0qww294e
+  pwa:
+    depends_on:
+      - mysql
+    build: 
+      context: ./
+      dockerfile: ./dev.Dockerfile
+    volumes:
+      - ./:/build
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 3003:3003
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        npm install
+        npm run dev
+    environment:
+      BUILD_MODE: development
+      # COOKIE_NAME: pwa-cookie
+      COOKIE_SECRET: RcaCH6Tjuhg2B4VCQC7xnbQz6Gn
+      DB_DATABASE: demoDb
+      DB_HOST: mysql
+      DB_PASSWORD: pwa-0qww294e
+      DB_PORT: 3306
+      DB_USER: pwauser
+      DOCKER_MODE: "true"
+      ENVIRONMENT: dev
+      HTTPS: "false"
+      MAX_WORKERS: 2
+      MORGAN_LOG_LEVEL: short
+      NODE_PORT: 3000
+      # SSLCERT: 
+      # SSLCHAIN: 
+      # SSLKEY: 
+      # SSLPFX: 
+volumes:
+  mysql-data:

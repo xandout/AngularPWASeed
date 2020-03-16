@@ -39,6 +39,7 @@ export class IsLoggedInGuard implements CanLoad, CanActivate, CanActivateChild {
             tap(isLoggedIn => {
                 this.loggedIn = isLoggedIn;
                 if (!isLoggedIn) {
+                    console.log("Not logged in")
                     return this._router.navigate(['/login']);
                 }
             })
