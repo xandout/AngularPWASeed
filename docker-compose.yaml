@@ -32,7 +32,7 @@ services:
         npm run dev
     environment:
       BUILD_MODE: development
-      # COOKIE_NAME: pwa-cookie
+      COOKIE_NAME: pwa-cookie
       COOKIE_SECRET: RcaCH6Tjuhg2B4VCQC7xnbQz6Gn
       DB_DATABASE: demoDb
       DB_HOST: mysql
