@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {SharedModule} from '@modules/shared';
 import {DemoComponent} from '@components/demo/component';
+import {LogoutComponent} from '@components/logout'
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import {DemoComponent} from '@components/demo/component';
         )
     ],
     declarations: [
-        DemoComponent
+        DemoComponent,
+        LogoutComponent
     ]
 })
 export class DemoLazyModule {}
